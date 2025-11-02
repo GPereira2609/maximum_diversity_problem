@@ -10,6 +10,7 @@ arestas = [
     ('b', 'd', 10),
     ('c', 'd', 7)
 ]
+m = 3
 
 def amostrar_sem_reposicao(probabilidades: dict[str, float], m: int) -> list[str]:
     """Seleciona m elementos distintos com base em pesos, sem reposição."""
@@ -93,4 +94,4 @@ def heuristica_roleta_russa(grafo, arestas, m):
         print("Nenhuma solução encontrada.")
         return None
 
-heuristica_roleta_russa(vertices, arestas, 3)
+heuristica_roleta_russa(vertices, arestas, m)
