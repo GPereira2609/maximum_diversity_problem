@@ -6,7 +6,9 @@ from utils.functions import (
     soma_solucao,
 )
 
+# A variável vertices representa os vértices do grafo 
 vertices = ['a', 'b', 'c', 'd']
+# A variável arestas representa as arestas do grafo no formato (vértice1, vértice2, peso)
 arestas = [
     ('a', 'b', 8),
     ('a', 'c', 5),
@@ -15,6 +17,7 @@ arestas = [
     ('b', 'd', 10),
     ('c', 'd', 7)
 ]
+# A cardinalidade da solução desejada
 m = 3
 
 def heuristica_roleta_russa(grafo, arestas, m):
