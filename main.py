@@ -3,8 +3,8 @@ import time
 from utils.functions import (
     amostrar_sem_reposicao, 
     normalizar_probabilidades, 
-    soma_solucao,
     pre_processar_arestas,
+    ConjuntoSolucao
 )
 
 # A variável vertices representa os vértices do grafo 
@@ -18,8 +18,6 @@ arestas = [
 # A cardinalidade da solução desejada
 m = 3
 
-arestas_pre_processadas = pre_processar_arestas(arestas)
-
 def heuristica_roleta_russa(grafo, arestas, m):
     qtd_solucao_repetida = 0
     maior_solucao = float('-inf')
@@ -28,7 +26,10 @@ def heuristica_roleta_russa(grafo, arestas, m):
 
     while qtd_solucao_repetida < 10:
         vetor_solucao = amostrar_sem_reposicao(probabilidades, m)
-        soma_pesos = soma_solucao(vetor_solucao, arestas_pre_processadas)
+        conjunto_solucao = ConjuntoSolucao(arestas)
+        for v in vetor_solucao:
+            conjunto_solucao.adicionar_vertice(v)
+        soma_pesos = conjunto_solucao.obter_soma()
 
         print("\nProbabilidades:", probabilidades)
         print("Solução atual:", vetor_solucao)
@@ -61,4 +62,5 @@ def heuristica_roleta_russa(grafo, arestas, m):
         print("Nenhuma solução encontrada.")
         return None
 
+arestas_pre_processadas = pre_processar_arestas(arestas)
 heuristica_roleta_russa(vertices, arestas_pre_processadas, m)

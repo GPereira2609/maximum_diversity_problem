@@ -15,19 +15,6 @@ def amostrar_sem_reposicao(probabilidades: dict[str, float], m: int) -> list[str
 
     return selecionados
 
-
-def soma_solucao(solucao, arestas):
-    """Soma os pesos das arestas entre os vértices da solução."""
-    soma = 0
-    n = len(solucao)
-
-    for i in range(n):
-        for j in range(i + 1, n):
-            u, v = solucao[i], solucao[j]
-            soma += arestas[u].get(v, 0) 
-    return soma
-
-
 def normalizar_probabilidades(probabilidades: dict[str, float]):
     """Garante que a soma dos pesos seja 1.0"""
     total = sum(probabilidades.values())
@@ -40,8 +27,24 @@ def normalizar_probabilidades(probabilidades: dict[str, float]):
             probabilidades[k] /= total
 
 def pre_processar_arestas(arestas):
-    arestas_final = {}
-    for a, b, peso in arestas:
-        arestas_final.setdefault(a, {})[b] = peso
-        arestas_final.setdefault(b, {})[a] = peso
-    return arestas_final
+    """Converte uma lista (u, v, peso) em um dict de adjacência."""
+    adj = {}
+    for u, v, w in arestas:
+        adj.setdefault(u, {})[v] = w
+        adj.setdefault(v, {})[u] = w
+    return adj
+
+class ConjuntoSolucao:
+
+    def __init__(self, arestas):
+        self.arestas = arestas
+        self.vertices = []
+        self.soma = 0
+
+    def adicionar_vertice(self, vertice):
+        for u in self.vertices:
+            self.soma += self.arestas[u].get(vertice, 0)
+        self.vertices.append(vertice)
+
+    def obter_soma(self):
+        return self.soma    
