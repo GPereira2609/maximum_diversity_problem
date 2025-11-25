@@ -19,13 +19,12 @@ def amostrar_sem_reposicao(probabilidades: dict[str, float], m: int) -> list[str
 def soma_solucao(solucao, arestas):
     """Soma os pesos das arestas entre os vértices da solução."""
     soma = 0
-    for i in range(len(solucao)):
-        for j in range(i + 1, len(solucao)):
+    n = len(solucao)
+
+    for i in range(n):
+        for j in range(i + 1, n):
             u, v = solucao[i], solucao[j]
-            for a, b, peso in arestas:
-                if (a == u and b == v) or (a == v and b == u):
-                    soma += peso
-                    break
+            soma += arestas[u].get(v, 0) 
     return soma
 
 
@@ -39,3 +38,10 @@ def normalizar_probabilidades(probabilidades: dict[str, float]):
     else:
         for k in probabilidades:
             probabilidades[k] /= total
+
+def pre_processar_arestas(arestas):
+    arestas_final = {}
+    for a, b, peso in arestas:
+        arestas_final.setdefault(a, {})[b] = peso
+        arestas_final.setdefault(b, {})[a] = peso
+    return arestas_final
